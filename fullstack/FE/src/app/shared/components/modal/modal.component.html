@@ -1,0 +1,16 @@
+@if (isOpen()) {
+  <div class="modal__backdrop" (click)="onBackdropClick($event)">
+    <div class="modal__container" (click)="$event.stopPropagation()">
+      <div class="modal__header">
+        <h2 class="modal__title">{{ title() }}</h2>
+        <button class="modal__close" (click)="onCloseClick()" aria-label="Close">
+          ✕
+        </button>
+      </div>
+      <div class="modal__content">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+}
+

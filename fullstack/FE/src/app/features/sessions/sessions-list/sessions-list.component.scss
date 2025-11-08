@@ -106,3 +106,43 @@
     margin: 0;
   }
 }
+
+.create-session-form {
+  @include flex-column;
+  gap: $spacing-lg;
+
+  &__hint {
+    padding: $spacing-md;
+    background-color: var(--color-bg-secondary);
+    border-radius: $radius-md;
+    @include typography-body-small;
+    color: var(--color-text-secondary);
+
+    p {
+      margin: $spacing-xs 0;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    code {
+      background-color: var(--color-bg-primary);
+      padding: 2px 6px;
+      border-radius: $radius-sm;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875em;
+      color: var(--color-text-primary);
+    }
+  }
+
+  &__actions {
+    @include flex-between;
+    gap: $spacing-md;
+    margin-top: $spacing-md;
+  }
+}

@@ -1,16 +1,19 @@
 import { Component, OnInit, Signal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AdminService, AdminSession } from '@core/services/admin.service';
 import { SessionsService } from '@core/services/sessions.service';
 import { ErrorSnackbarService } from '@core/services/error-snackbar.service';
 import { SkeletonLoaderComponent } from '@shared/components/skeleton-loader/skeleton-loader.component';
 import { ButtonComponent } from '@shared/components/button/button.component';
+import { InputComponent } from '@shared/components/input/input.component';
+import { ModalComponent } from '@shared/components/modal/modal.component';
 
 @Component({
   selector: 'app-sessions',
   standalone: true,
-  imports: [CommonModule, SkeletonLoaderComponent, ButtonComponent],
+  imports: [CommonModule, FormsModule, SkeletonLoaderComponent, ButtonComponent, InputComponent, ModalComponent],
   templateUrl: './sessions.component.html',
   styleUrl: './sessions.component.scss'
 })
@@ -18,6 +21,9 @@ export class SessionsComponent implements OnInit {
   sessions!: Signal<AdminSession[]>;
   isLoading = true;
   isCreating = signal(false);
+  showModal = signal(false);
+  sessionToken = signal('');
+  sessionName = signal('');
 
   constructor(
     private adminService: AdminService,
@@ -62,19 +68,56 @@ export class SessionsComponent implements OnInit {
     return new Date(dateString).toLocaleString();
   }
 
+  ngOnInit(): void {
+    this.loadSessions();
+    // Auto-fill token from sessionStorage if available
+    const storedToken = sessionStorage.getItem('auth_token');
+    if (storedToken) {
+      this.sessionToken.set(storedToken);
+    }
+  }
+
+  openCreateModal(): void {
+    // Auto-fill token from sessionStorage
+    const storedToken = sessionStorage.getItem('auth_token');
+    if (storedToken) {
+      this.sessionToken.set(storedToken);
+    }
+    this.sessionName.set(`Test Session - ${new Date().toLocaleString()}`);
+    this.showModal.set(true);
+  }
+
+  closeModal(): void {
+    this.showModal.set(false);
+  }
+
   createSession(): void {
+    const token = this.sessionToken().trim();
+    const name = this.sessionName().trim() || `Test Session - ${new Date().toLocaleString()}`;
+
+    if (!token) {
+      this.snackbar.error('Token is required');
+      return;
+    }
+
     this.isCreating.set(true);
-    const sessionName = `Test Session - ${new Date().toLocaleString()}`;
     
-    this.sessionsService.createSession(sessionName, 'online').subscribe({
+    // First, verify token by trying to create session
+    // The API will validate the token automatically via auth interceptor
+    this.sessionsService.createSession(name, 'online').subscribe({
       next: (newSession) => {
         this.isCreating.set(false);
+        this.showModal.set(false);
         // Navigate to the chat page
         this.router.navigate(['/chat', newSession.id]);
       },
       error: (error) => {
         this.isCreating.set(false);
-        this.snackbar.error('Failed to create session. Please try again.');
+        if (error.status === 401) {
+          this.snackbar.error('Invalid token. Please check your token and try again.');
+        } else {
+          this.snackbar.error('Failed to create session. Please try again.');
+        }
       }
     });
   }

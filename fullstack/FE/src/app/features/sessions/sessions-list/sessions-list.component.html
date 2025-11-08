@@ -9,17 +9,63 @@
       </div>
       <app-button
         variant="primary"
-        [disabled]="isCreating()"
-        (click)="createSession()"
+        (click)="openCreateModal()"
       >
-        @if (isCreating()) {
-          Creating...
-        } @else {
-          + New Session
-        }
+        + New Session
       </app-button>
     </div>
   </header>
+
+  <!-- Create Session Modal -->
+  <app-modal
+    [isOpen]="showModal()"
+    title="Create New Session"
+    (closeModal)="closeModal()"
+  >
+    <form (ngSubmit)="createSession()" class="create-session-form">
+      <app-input
+        type="text"
+        label="Session Name"
+        placeholder="My Test Session"
+        [(value)]="sessionName"
+      />
+
+      <app-input
+        type="password"
+        label="Authentication Token *"
+        placeholder="Enter your JWT token"
+        [required]="true"
+        [(value)]="sessionToken"
+      />
+
+      <div class="create-session-form__hint">
+        <p>💡 Tip: Your token is automatically filled from your current session.</p>
+        <p>To get it manually: <code>sessionStorage.getItem('auth_token')</code></p>
+      </div>
+
+      <div class="create-session-form__actions">
+        <app-button
+          type="button"
+          variant="outline"
+          (click)="closeModal()"
+          [disabled]="isCreating()"
+        >
+          Cancel
+        </app-button>
+        <app-button
+          type="submit"
+          variant="primary"
+          [disabled]="isCreating() || !sessionToken().trim()"
+        >
+          @if (isCreating()) {
+            Creating...
+          } @else {
+            Create & Connect
+          }
+        </app-button>
+      </div>
+    </form>
+  </app-modal>
 
   <main class="sessions-page__main">
     <div class="sessions-page__container">

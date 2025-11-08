@@ -1,5 +1,6 @@
 import { Component, OnInit, effect, Signal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SessionsService } from '@core/services/sessions.service';
 import { AuthService } from '@core/services/auth.service';
@@ -7,12 +8,14 @@ import { LiveIdeSession, SessionStatus, User } from '@core/types';
 import { CardComponent } from '@shared/components/card/card.component';
 import { HeaderComponent } from '@shared/components/header/header.component';
 import { ButtonComponent } from '@shared/components/button/button.component';
+import { InputComponent } from '@shared/components/input/input.component';
+import { ModalComponent } from '@shared/components/modal/modal.component';
 import { ErrorSnackbarService } from '@core/services/error-snackbar.service';
 
 @Component({
   selector: 'app-sessions-list',
   standalone: true,
-  imports: [CommonModule, CardComponent, HeaderComponent, ButtonComponent],
+  imports: [CommonModule, FormsModule, CardComponent, HeaderComponent, ButtonComponent, InputComponent, ModalComponent],
   templateUrl: './sessions-list.component.html',
   styleUrl: './sessions-list.component.scss'
 })
@@ -20,6 +23,9 @@ export class SessionsListComponent implements OnInit {
   sessions!: Signal<LiveIdeSession[]>;
   currentUser!: Signal<User | null>;
   isCreating = signal(false);
+  showModal = signal(false);
+  sessionToken = signal('');
+  sessionName = signal('');
 
   constructor(
     private sessionsService: SessionsService,
@@ -51,6 +57,11 @@ export class SessionsListComponent implements OnInit {
         }
       });
     }
+    // Auto-fill token from sessionStorage if available
+    const storedToken = sessionStorage.getItem('auth_token');
+    if (storedToken) {
+      this.sessionToken.set(storedToken);
+    }
   }
 
   getStatusClass(status: SessionStatus): string {
@@ -79,19 +90,45 @@ export class SessionsListComponent implements OnInit {
     this.router.navigate(['/chat', session.id]);
   }
 
+  openCreateModal(): void {
+    // Auto-fill token from sessionStorage
+    const storedToken = sessionStorage.getItem('auth_token');
+    if (storedToken) {
+      this.sessionToken.set(storedToken);
+    }
+    this.sessionName.set(`Test Session - ${new Date().toLocaleString()}`);
+    this.showModal.set(true);
+  }
+
+  closeModal(): void {
+    this.showModal.set(false);
+  }
+
   createSession(): void {
+    const token = this.sessionToken().trim();
+    const name = this.sessionName().trim() || `Test Session - ${new Date().toLocaleString()}`;
+
+    if (!token) {
+      this.snackbar.error('Token is required');
+      return;
+    }
+
     this.isCreating.set(true);
-    const sessionName = `Test Session - ${new Date().toLocaleString()}`;
     
-    this.sessionsService.createSession(sessionName, 'online').subscribe({
+    this.sessionsService.createSession(name, 'online').subscribe({
       next: (newSession) => {
         this.isCreating.set(false);
+        this.showModal.set(false);
         // Navigate to the new session's chat
         this.router.navigate(['/chat', newSession.id]);
       },
       error: (error) => {
         this.isCreating.set(false);
-        this.snackbar.error('Failed to create session. Please try again.');
+        if (error.status === 401) {
+          this.snackbar.error('Invalid token. Please check your token and try again.');
+        } else {
+          this.snackbar.error('Failed to create session. Please try again.');
+        }
       }
     });
   }

@@ -1,0 +1,84 @@
+@use '../../../../styles/tokens' as *;
+@use '../../../../styles/mixins' as *;
+
+.modal {
+  &__backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: $spacing-lg;
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  &__container {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border-primary);
+    border-radius: $radius-lg;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: $shadow-xl;
+    animation: slideUp 0.2s ease-out;
+  }
+
+  &__header {
+    @include flex-between;
+    align-items: center;
+    padding: $spacing-lg;
+    border-bottom: 1px solid var(--color-border-primary);
+  }
+
+  &__title {
+    @include typography-heading-3;
+    color: var(--color-text-primary);
+    margin: 0;
+  }
+
+  &__close {
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: $spacing-xs;
+    line-height: 1;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: var(--color-text-primary);
+    }
+  }
+
+  &__content {
+    padding: $spacing-lg;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
