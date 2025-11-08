@@ -49,11 +49,13 @@ export async function authRoutes(fastify: FastifyInstance) {
           role: user.role || 'user'
         }
       };
-    } catch (error) {
-      fastify.log.error(error);
+    } catch (error: any) {
+      fastify.log.error('Login error:', error);
+      fastify.log.error('Error stack:', error?.stack);
+      fastify.log.error('Error message:', error?.message);
       return reply.status(500).send({
         error: 'Internal Server Error',
-        message: 'An error occurred during login'
+        message: error?.message || 'An error occurred during login'
       });
     }
   });
