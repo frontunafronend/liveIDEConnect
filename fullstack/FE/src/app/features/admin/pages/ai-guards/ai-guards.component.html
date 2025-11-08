@@ -1,0 +1,42 @@
+<div class="ai-guards">
+  <header class="ai-guards__header">
+    <h1 class="ai-guards__title">AI Guards & Alerts</h1>
+    <p class="ai-guards__subtitle">Real-time system monitoring and AI-generated alerts</p>
+    <button class="ai-guards__refresh" (click)="loadAlerts()">🔄 Refresh</button>
+  </header>
+
+  @if (isLoading) {
+    <app-skeleton-loader type="list" [lines]="3"></app-skeleton-loader>
+  } @else {
+    @if (alerts().length === 0) {
+      <div class="ai-guards__empty">
+        <p>✅ No alerts detected. System is running normally.</p>
+      </div>
+    } @else {
+      <div class="ai-guards__alerts">
+        @for (alert of alerts(); track alert.id) {
+          <div class="ai-guards__alert" [ngClass]="getSeverityClass(alert.severity)">
+            <div class="ai-guards__alert-header">
+              <span class="ai-guards__alert-icon">{{ getSeverityIcon(alert.severity) }}</span>
+              <div class="ai-guards__alert-info">
+                <h3 class="ai-guards__alert-type">{{ alert.type }}</h3>
+                <span class="ai-guards__alert-severity" [ngClass]="'ai-guards__alert-severity--' + alert.severity">
+                  {{ alert.severity }}
+                </span>
+              </div>
+              <span class="ai-guards__alert-time">{{ formatDate(alert.timestamp) }}</span>
+            </div>
+            <p class="ai-guards__alert-message">{{ alert.message }}</p>
+            @if (alert.details) {
+              <details class="ai-guards__alert-details">
+                <summary>View Details</summary>
+                <pre>{{ alert.details | json }}</pre>
+              </details>
+            }
+          </div>
+        }
+      </div>
+    }
+  }
+</div>
+

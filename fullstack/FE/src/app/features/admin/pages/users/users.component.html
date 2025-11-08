@@ -1,0 +1,55 @@
+<div class="users-page">
+  <header class="users-page__header">
+    <h1 class="users-page__title">Users Management</h1>
+    <p class="users-page__subtitle">Manage all system users</p>
+  </header>
+
+  @if (isLoading) {
+    <app-skeleton-loader type="table" [lines]="5"></app-skeleton-loader>
+  } @else {
+    <div class="users-page__table">
+      <table class="table">
+        <thead class="table__head">
+          <tr>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table__body">
+          @for (user of users(); track user.id) {
+            <tr class="table__row">
+              <td>{{ user.email }}</td>
+              <td>{{ user.name }}</td>
+              <td>
+                <span class="table__badge" [attr.data-role]="user.role">
+                  {{ user.role }}
+                </span>
+              </td>
+              <td>
+                <div class="table__actions">
+                  @if (user.role !== 'admin') {
+                    <button class="button button--outline button--sm" (click)="banUser(user)">
+                      Ban
+                    </button>
+                    <button class="button button--outline button--sm" (click)="deleteUser(user)">
+                      Delete
+                    </button>
+                  } @else {
+                    <span class="table__no-action">Protected</span>
+                  }
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4" class="table__empty">No users found</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
+

@@ -1,0 +1,38 @@
+<div class="admin">
+  <app-header></app-header>
+
+  <div class="admin__container">
+    <aside class="admin__sidebar">
+      <nav class="admin__nav">
+        @for (item of navItems; track item.path) {
+          <a
+            [routerLink]="item.path"
+            routerLinkActive="admin__nav-item--active"
+            [routerLinkActiveOptions]="{ exact: item.path === '/admin' }"
+            class="admin__nav-item"
+          >
+            <span class="admin__nav-icon">{{ item.icon }}</span>
+            <span class="admin__nav-label">{{ item.label }}</span>
+          </a>
+        }
+        
+        <div class="admin__nav-divider"></div>
+        
+        @for (item of externalNavItems; track item.path) {
+          <a
+            [routerLink]="item.path"
+            class="admin__nav-item admin__nav-item--external"
+          >
+            <span class="admin__nav-icon">{{ item.icon }}</span>
+            <span class="admin__nav-label">{{ item.label }}</span>
+          </a>
+        }
+      </nav>
+    </aside>
+
+    <main class="admin__main">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
+

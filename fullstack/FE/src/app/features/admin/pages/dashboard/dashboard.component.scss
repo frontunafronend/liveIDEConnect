@@ -1,0 +1,30 @@
+@use '../../../../../styles/tokens' as *;
+@use '../../../../../styles/mixins' as *;
+
+.dashboard {
+  &__header {
+    margin-bottom: $spacing-2xl;
+  }
+
+  &__title {
+    @include typography-heading-2;
+    color: var(--color-text-primary);
+    margin-bottom: $spacing-sm;
+  }
+
+  &__subtitle {
+    @include typography-body;
+    color: var(--color-text-secondary);
+  }
+
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: $spacing-lg;
+
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+

@@ -1,0 +1,95 @@
+@use '../../../../styles/tokens' as *;
+@use '../../../../styles/mixins' as *;
+
+.snackbar-container {
+  position: fixed;
+  bottom: $spacing-lg;
+  right: $spacing-lg;
+  z-index: $z-tooltip;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  max-width: 400px;
+  width: 100%;
+  pointer-events: none;
+
+  @include mobile {
+    bottom: $spacing-md;
+    right: $spacing-md;
+    left: $spacing-md;
+    max-width: none;
+  }
+}
+
+.snackbar {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  border-radius: $radius-md;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-primary);
+  box-shadow: var(--shadow-lg);
+  pointer-events: auto;
+  animation: slideIn 0.3s ease-out;
+
+  &[data-type='success'] {
+    border-left: 3px solid $color-success;
+  }
+
+  &[data-type='error'] {
+    border-left: 3px solid $color-error;
+  }
+
+  &[data-type='warning'] {
+    border-left: 3px solid $color-warning;
+  }
+
+  &[data-type='info'] {
+    border-left: 3px solid $color-info;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    @include flex-center;
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+
+  &__message {
+    flex: 1;
+    @include typography-body-small;
+    color: var(--color-text-primary);
+  }
+
+  &__close {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    @include flex-center;
+    border: none;
+    background: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    padding: 0;
+    font-size: 0.875rem;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: var(--color-text-primary);
+    }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

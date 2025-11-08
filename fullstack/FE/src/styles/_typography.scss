@@ -1,0 +1,74 @@
+/**
+ * Typography System
+ * Font families and base typography styles
+ */
+
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+// Font Families (Neon uses Inter as primary)
+$font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+$font-secondary: $font-primary; // Use same font for consistency
+
+// Base Typography
+body {
+  font-family: $font-primary;
+  @include typography-body;
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Headings (Neon style - bold, dark gray)
+h1, .h1 {
+  @include typography-heading-1;
+  font-family: $font-primary;
+  color: var(--color-text-primary);
+  font-weight: 700;
+  margin: 0 0 $spacing-lg 0;
+}
+
+h2, .h2 {
+  @include typography-heading-2;
+  font-family: $font-primary;
+  color: var(--color-text-primary);
+  font-weight: 700;
+  margin: 0 0 $spacing-md 0;
+}
+
+h3, .h3 {
+  @include typography-heading-3;
+  font-family: $font-primary;
+  color: var(--color-text-primary);
+  font-weight: 600;
+  margin: 0 0 $spacing-md 0;
+}
+
+h4, .h4 {
+  @include typography-heading-4;
+  font-family: $font-primary;
+  color: var(--color-text-primary);
+  font-weight: 600;
+  margin: 0 0 $spacing-sm 0;
+}
+
+// Body Text
+p {
+  @include typography-body;
+  margin: 0 0 $spacing-md 0;
+}
+
+// Links (Neon style - blue links)
+a {
+  color: $color-link;
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-link-hover;
+    text-decoration: underline;
+  }
+}
+

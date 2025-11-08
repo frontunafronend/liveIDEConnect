@@ -1,0 +1,59 @@
+@use '../../../../../styles/tokens' as *;
+@use '../../../../../styles/mixins' as *;
+
+.stats-card {
+  @include card-base;
+  padding: $spacing-lg;
+  background-color: var(--color-surface);
+  border-color: var(--color-border-primary);
+  transition: transform $transition-fast, box-shadow $transition-fast;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  &[data-color='primary'] {
+    border-left: 3px solid $color-primary;
+  }
+
+  &[data-color='success'] {
+    border-left: 3px solid $color-success;
+  }
+
+  &[data-color='warning'] {
+    border-left: 3px solid $color-warning;
+  }
+
+  &[data-color='error'] {
+    border-left: 3px solid $color-error;
+  }
+
+  &[data-color='info'] {
+    border-left: 3px solid $color-info;
+  }
+
+  &__header {
+    @include flex-row;
+    align-items: center;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-md;
+  }
+
+  &__icon {
+    font-size: 1.5rem;
+  }
+
+  &__label {
+    @include typography-body-small;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+  }
+
+  &__value {
+    @include typography-heading-2;
+    color: var(--color-text-primary);
+    font-weight: 700;
+  }
+}
+

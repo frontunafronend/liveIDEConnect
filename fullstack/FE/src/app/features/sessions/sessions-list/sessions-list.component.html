@@ -1,0 +1,39 @@
+<div class="sessions-page">
+  <app-header></app-header>
+  
+  <header class="sessions-page__header">
+    <div class="sessions-page__header-content">
+      <div>
+        <h1 class="sessions-page__title">IDE Sessions</h1>
+        <p class="sessions-page__subtitle">Manage your connected development environments</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="sessions-page__main">
+    <div class="sessions-page__container">
+      @if (sessions().length === 0) {
+        <div class="sessions-page__empty">
+          <p>No sessions available. Connect your IDE to get started.</p>
+        </div>
+      } @else {
+        <div class="sessions-page__grid">
+          @for (session of sessions(); track session.id) {
+            <app-card class="session-item" (click)="onSessionClick(session)">
+              <div class="session-item__header">
+                <h3 class="session-item__name">{{ session.name }}</h3>
+                <span [class]="getStatusClass(session.status)">
+                  {{ getStatusLabel(session.status) }}
+                </span>
+              </div>
+              <p class="session-item__meta">
+                Last active: {{ formatLastActive(session.lastActive) }}
+              </p>
+            </app-card>
+          }
+        </div>
+      }
+    </div>
+  </main>
+</div>
+

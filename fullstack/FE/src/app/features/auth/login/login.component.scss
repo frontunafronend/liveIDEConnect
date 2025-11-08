@@ -1,0 +1,65 @@
+@use '../../../../styles/tokens' as *;
+@use '../../../../styles/mixins' as *;
+
+.auth-page {
+  min-height: 100vh;
+  @include flex-center;
+  padding: $spacing-md;
+  background-color: var(--color-bg-secondary);
+  transition: background-color $transition-base;
+
+  &__container {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  &__card {
+    @include card-base;
+    padding: $spacing-2xl;
+    background-color: var(--color-surface);
+    border-color: var(--color-border-primary);
+  }
+
+  &__title {
+    text-align: center;
+    margin-bottom: $spacing-sm;
+    color: var(--color-text-primary);
+  }
+
+  &__subtitle {
+    text-align: center;
+    color: var(--color-text-secondary);
+    margin-bottom: $spacing-xl;
+  }
+
+  &__form {
+    @include flex-column;
+    gap: $spacing-lg;
+  }
+
+  &__error {
+    padding: $spacing-sm $spacing-md;
+    background-color: $color-error;
+    color: $color-white;
+    border-radius: $radius-md;
+    @include typography-body-small;
+    margin-bottom: $spacing-md;
+  }
+
+  &__footer {
+    text-align: center;
+    margin-top: $spacing-lg;
+    color: var(--color-text-secondary);
+  }
+
+  &__link {
+    color: $color-link;
+    font-weight: 500;
+    margin-left: $spacing-xs;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $color-link-hover;
+    }
+  }
+}

@@ -1,0 +1,148 @@
+<div class="monitor">
+  <header class="monitor__header">
+    <div>
+      <h1 class="monitor__title">System Monitor</h1>
+      <p class="monitor__subtitle">Real-time system metrics and health monitoring</p>
+    </div>
+    <div class="monitor__controls">
+      <button 
+        class="monitor__pause-btn"
+        (click)="togglePause()"
+        [attr.aria-label]="isPaused() ? 'Resume auto-refresh' : 'Pause auto-refresh'"
+      >
+        {{ isPaused() ? '▶ Resume' : '⏸ Pause' }}
+      </button>
+      @if (lastUpdate()) {
+        <span class="monitor__last-update">
+          Last Updated: {{ lastUpdate()! | date:'shortTime' }}
+        </span>
+      }
+    </div>
+  </header>
+
+  @if (isLoading()) {
+    <app-skeleton-loader type="card" [lines]="6"></app-skeleton-loader>
+  } @else {
+    @if (monitorData()) {
+      <!-- Summary Card -->
+      <div class="monitor__summary" [attr.data-status]="monitorData()!.status.toLowerCase()">
+        <div class="monitor__summary-header">
+          <span class="monitor__status-badge" [ngClass]="statusClass()">
+            {{ monitorData()!.status }}
+          </span>
+          <span class="monitor__summary-text">{{ monitorData()!.summary }}</span>
+        </div>
+      </div>
+
+      <!-- Metrics Grid -->
+      <div class="monitor__grid">
+        <div 
+          class="monitor__metric"
+          [ngClass]="getMetricStatusClass(monitorData()!.metrics.cpu, { warning: 75, critical: 90 })"
+        >
+          <div class="monitor__metric-header">
+            <span class="monitor__metric-icon">⚡</span>
+            <span class="monitor__metric-label">CPU Usage</span>
+          </div>
+          <div class="monitor__metric-value">{{ monitorData()!.metrics.cpu.toFixed(1) }}%</div>
+          @if (cpuTrend()) {
+            <div class="monitor__metric-trend" [attr.data-trend]="cpuTrend()!.isPositive ? 'up' : 'down'">
+              {{ cpuTrend()!.value }}
+            </div>
+          }
+        </div>
+
+        <div 
+          class="monitor__metric"
+          [ngClass]="getMetricStatusClass(monitorData()!.metrics.memory, { warning: 80, critical: 90 })"
+        >
+          <div class="monitor__metric-header">
+            <span class="monitor__metric-icon">💾</span>
+            <span class="monitor__metric-label">Memory Usage</span>
+          </div>
+          <div class="monitor__metric-value">{{ monitorData()!.metrics.memory.toFixed(1) }}%</div>
+        </div>
+
+        <div 
+          class="monitor__metric"
+          [ngClass]="getMetricStatusClass(monitorData()!.metrics.dbLatencyMs, { warning: 500, critical: 1000 })"
+        >
+          <div class="monitor__metric-header">
+            <span class="monitor__metric-icon">🗄️</span>
+            <span class="monitor__metric-label">DB Latency</span>
+          </div>
+          <div class="monitor__metric-value">{{ monitorData()!.metrics.dbLatencyMs }}ms</div>
+        </div>
+
+        <div class="monitor__metric monitor__metric--ok">
+          <div class="monitor__metric-header">
+            <span class="monitor__metric-icon">🔌</span>
+            <span class="monitor__metric-label">WebSockets</span>
+          </div>
+          <div class="monitor__metric-value">{{ monitorData()!.metrics.activeWebSockets }}</div>
+        </div>
+
+        <div class="monitor__metric monitor__metric--ok">
+          <div class="monitor__metric-header">
+            <span class="monitor__metric-icon">💻</span>
+            <span class="monitor__metric-label">Active Sessions</span>
+          </div>
+          <div class="monitor__metric-value">{{ monitorData()!.metrics.activeSessions }}</div>
+        </div>
+
+        <div class="monitor__metric monitor__metric--ok">
+          <div class="monitor__metric-header">
+            <span class="monitor__metric-icon">💬</span>
+            <span class="monitor__metric-label">Messages/hr</span>
+          </div>
+          <div class="monitor__metric-value">{{ monitorData()!.metrics.messagesLastHour }}</div>
+          @if (messagesTrend()) {
+            <div class="monitor__metric-trend" [attr.data-trend]="messagesTrend()!.isPositive ? 'up' : 'down'">
+              {{ messagesTrend()!.value }}
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Alerts Table -->
+      @if (monitorData()!.alerts.length > 0) {
+        <div class="monitor__alerts">
+          <h2 class="monitor__section-title">Alerts</h2>
+          <div class="monitor__alert-table">
+            <table class="table">
+              <thead class="table__head">
+                <tr>
+                  <th>Type</th>
+                  <th>Severity</th>
+                  <th>Message</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody class="table__body">
+                @for (alert of monitorData()!.alerts; track alert.type + alert.message) {
+                  <tr class="table__row">
+                    <td>{{ alert.type }}</td>
+                    <td>
+                      <span class="table__badge" [attr.data-severity]="alert.severity">
+                        {{ alert.severity }}
+                      </span>
+                    </td>
+                    <td>{{ alert.message }}</td>
+                    <td>
+                      @if (alert.timestamp) {
+                        {{ alert.timestamp | date:'short' }}
+                      } @else {
+                        <span class="table__no-action">Just now</span>
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+    }
+  }
+</div>
+

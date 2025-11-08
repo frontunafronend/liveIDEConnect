@@ -1,0 +1,49 @@
+@switch (type) {
+  @case ('text') {
+    <div class="skeleton skeleton--text">
+      @for (line of [].constructor(lines); track $index) {
+        <div class="skeleton__line" [style.width]="width || '100%'"></div>
+      }
+    </div>
+  }
+  @case ('card') {
+    <div class="skeleton skeleton--card">
+      <div class="skeleton__header"></div>
+      <div class="skeleton__content">
+        @for (line of [].constructor(lines); track $index) {
+          <div class="skeleton__line"></div>
+        }
+      </div>
+    </div>
+  }
+  @case ('table') {
+    <div class="skeleton skeleton--table">
+      <div class="skeleton__row skeleton__row--header">
+        @for (col of [].constructor(4); track $index) {
+          <div class="skeleton__cell"></div>
+        }
+      </div>
+      @for (row of [].constructor(lines); track $index) {
+        <div class="skeleton__row">
+          @for (col of [].constructor(4); track $index) {
+            <div class="skeleton__cell"></div>
+          }
+        </div>
+      }
+    </div>
+  }
+  @case ('list') {
+    <div class="skeleton skeleton--list">
+      @for (item of [].constructor(lines); track $index) {
+        <div class="skeleton__item">
+          <div class="skeleton__avatar"></div>
+          <div class="skeleton__content">
+            <div class="skeleton__line skeleton__line--title"></div>
+            <div class="skeleton__line skeleton__line--subtitle"></div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+}
+

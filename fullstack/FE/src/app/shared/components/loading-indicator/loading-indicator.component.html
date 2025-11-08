@@ -1,0 +1,9 @@
+<div class="loading-indicator" [attr.data-size]="size">
+  <div class="loading-indicator__spinner">
+    <div class="spinner"></div>
+  </div>
+  @if (message) {
+    <p class="loading-indicator__message">{{ message }}</p>
+  }
+</div>
+

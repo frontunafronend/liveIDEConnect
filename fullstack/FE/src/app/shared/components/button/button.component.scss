@@ -1,0 +1,34 @@
+@use '../../../../styles/tokens' as *;
+@use '../../../../styles/mixins' as *;
+
+.button {
+  @include button-base;
+  font-family: inherit;
+
+  &--primary {
+    @include button-primary;
+  }
+
+  &--secondary {
+    @include button-secondary;
+  }
+
+  &--outline {
+    @include button-outline;
+  }
+
+  &--sm {
+    padding: $spacing-xs $spacing-md;
+    font-size: 0.875rem;
+  }
+
+  &--md {
+    padding: $spacing-sm $spacing-lg;
+    font-size: 1rem;
+  }
+
+  &--lg {
+    padding: $spacing-md $spacing-xl;
+    font-size: 1.125rem;
+  }
+}

@@ -1,0 +1,57 @@
+@use '../../../../styles/tokens' as *;
+@use '../../../../styles/mixins' as *;
+
+.loading-indicator {
+  @include flex-center;
+  flex-direction: column;
+  gap: $spacing-md;
+  padding: $spacing-xl;
+
+  &[data-size='sm'] {
+    padding: $spacing-md;
+    gap: $spacing-sm;
+  }
+
+  &[data-size='lg'] {
+    padding: $spacing-2xl;
+    gap: $spacing-lg;
+  }
+
+  &__spinner {
+    @include flex-center;
+  }
+
+  &__message {
+    @include typography-body;
+    color: var(--color-text-secondary);
+    margin: 0;
+    text-align: center;
+  }
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-border-primary);
+  border-top-color: var(--color-primary, #10b981);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+
+  .loading-indicator[data-size='sm'] & {
+    width: 24px;
+    height: 24px;
+    border-width: 2px;
+  }
+
+  .loading-indicator[data-size='lg'] & {
+    width: 56px;
+    height: 56px;
+    border-width: 4px;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

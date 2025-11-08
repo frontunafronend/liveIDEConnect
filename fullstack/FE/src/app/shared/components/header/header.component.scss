@@ -1,0 +1,141 @@
+@use '../../../../styles/tokens' as *;
+@use '../../../../styles/mixins' as *;
+
+.header {
+  background-color: var(--color-bg-elevated);
+  border-bottom: 1px solid var(--color-border-primary);
+  padding: $spacing-md 0;
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: $z-sticky;
+  transition: background-color $transition-base, border-color $transition-base;
+
+  &__container {
+    @include flex-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $spacing-lg;
+    align-items: center;
+    gap: $spacing-md;
+
+    @include mobile {
+      padding: 0 $spacing-md;
+    }
+  }
+
+  &__brand {
+    @include flex-center;
+    gap: $spacing-md;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  &__title {
+    @include typography-heading-4;
+    margin: 0;
+    color: var(--color-text-primary);
+    font-weight: 600;
+    font-size: 1.125rem;
+    transition: color $transition-base;
+
+    @include mobile {
+      font-size: 1rem;
+    }
+  }
+
+  &__user {
+    @include flex-center;
+    gap: $spacing-md;
+  }
+
+  &__theme-toggle {
+    @include flex-center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--color-border-primary);
+    border-radius: $radius-md;
+    background-color: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all $transition-fast;
+    padding: $spacing-xs;
+
+    &:hover {
+      background-color: var(--color-surface-hover);
+      border-color: var(--color-border-secondary);
+      color: var(--color-text-primary);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &__admin-btn {
+    @include flex-center;
+    gap: $spacing-xs;
+    padding: $spacing-xs $spacing-md;
+    border: 1px solid var(--color-border-primary);
+    border-radius: $radius-md;
+    background-color: var(--color-surface-elevated);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    transition: all $transition-fast;
+    font-size: 0.875rem;
+    font-weight: 500;
+    @include typography-body;
+
+    &:hover {
+      background-color: var(--color-surface-hover);
+      border-color: var(--color-border-secondary);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    @include mobile {
+      span {
+        display: none;
+      }
+      padding: $spacing-xs;
+    }
+  }
+
+  &__user-name {
+    @include typography-body;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    transition: color $transition-base;
+
+    @include mobile {
+      display: none;
+    }
+  }
+
+  &__logout {
+    @include button-outline;
+    padding: $spacing-xs $spacing-md;
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+  }
+}

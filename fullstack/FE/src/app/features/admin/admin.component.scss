@@ -1,0 +1,97 @@
+@use '../../../styles/tokens' as *;
+@use '../../../styles/mixins' as *;
+
+.admin {
+  min-height: 100vh;
+  background-color: var(--color-bg-primary);
+  display: flex;
+  flex-direction: column;
+
+  &__container {
+    display: flex;
+    flex: 1;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  &__sidebar {
+    width: 240px;
+    background-color: var(--color-bg-elevated);
+    border-right: 1px solid var(--color-border-primary);
+    padding: $spacing-lg;
+    position: sticky;
+    top: 0;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+
+    @include mobile {
+      display: none;
+    }
+  }
+
+  &__nav {
+    @include flex-column;
+    gap: $spacing-xs;
+  }
+
+  &__nav-divider {
+    height: 1px;
+    background-color: var(--color-border-primary);
+    margin: $spacing-md 0;
+  }
+
+  &__nav-item {
+    @include flex-row;
+    align-items: center;
+    gap: $spacing-md;
+    padding: $spacing-md;
+    border-radius: $radius-md;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: all $transition-fast;
+    font-weight: 500;
+
+    &:hover {
+      background-color: var(--color-surface-hover);
+      color: var(--color-text-primary);
+    }
+
+    &--active {
+      background-color: var(--color-primary);
+      color: $color-white;
+
+      &:hover {
+        background-color: $color-primary-dark;
+      }
+    }
+
+    &--external {
+      border: 1px solid var(--color-border-primary);
+      
+      &:hover {
+        border-color: var(--color-border-secondary);
+        background-color: var(--color-surface-hover);
+      }
+    }
+  }
+
+  &__nav-icon {
+    font-size: 1.25rem;
+  }
+
+  &__nav-label {
+    @include typography-body;
+  }
+
+  &__main {
+    flex: 1;
+    padding: $spacing-xl;
+    overflow-y: auto;
+
+    @include mobile {
+      padding: $spacing-md;
+    }
+  }
+}
+

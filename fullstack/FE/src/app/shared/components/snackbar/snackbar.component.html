@@ -1,0 +1,20 @@
+<div class="snackbar-container">
+  @for (message of messages(); track message.id) {
+    <div 
+      class="snackbar"
+      [attr.data-type]="message.type"
+    >
+      <div class="snackbar__icon">{{ getIcon(message.type) }}</div>
+      <div class="snackbar__message">{{ message.message }}</div>
+      <button 
+        class="snackbar__close"
+        (click)="dismiss(message.id)"
+        aria-label="Close"
+        type="button"
+      >
+        ✕
+      </button>
+    </div>
+  }
+</div>
+

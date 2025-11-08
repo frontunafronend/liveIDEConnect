@@ -1,0 +1,49 @@
+<div class="sessions-page">
+  <header class="sessions-page__header">
+    <h1 class="sessions-page__title">Sessions Monitor</h1>
+    <p class="sessions-page__subtitle">View all active IDE sessions and their status</p>
+  </header>
+
+  @if (isLoading) {
+    <app-skeleton-loader type="table" [lines]="5"></app-skeleton-loader>
+  } @else {
+    <div class="sessions-page__table">
+      <table class="sessions-table">
+        <thead class="sessions-table__head">
+          <tr>
+            <th>Session Name</th>
+            <th>User</th>
+            <th>Status</th>
+            <th>Last Active</th>
+            <th>Created</th>
+          </tr>
+        </thead>
+        <tbody class="sessions-table__body">
+          @for (session of sessions(); track session.id) {
+            <tr class="sessions-table__row">
+              <td>{{ session.name }}</td>
+              <td>
+                <div class="sessions-table__user">
+                  <span class="sessions-table__user-name">{{ session.user.name }}</span>
+                  <span class="sessions-table__user-email">{{ session.user.email }}</span>
+                </div>
+              </td>
+              <td>
+                <span class="sessions-table__status" [ngClass]="getStatusClass(session.status)">
+                  {{ session.status }}
+                </span>
+              </td>
+              <td>{{ formatDate(session.lastActive) }}</td>
+              <td>{{ formatDate(session.createdAt) }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="sessions-table__empty">No sessions found</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
+

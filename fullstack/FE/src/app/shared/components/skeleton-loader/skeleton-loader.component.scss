@@ -1,0 +1,129 @@
+@use '../../../../styles/tokens' as *;
+@use '../../../../styles/mixins' as *;
+
+.skeleton {
+  &--text {
+    @include flex-column;
+    gap: $spacing-sm;
+  }
+
+  &--card {
+    padding: $spacing-lg;
+    border-radius: $radius-md;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border-primary);
+  }
+
+  &--table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  &--list {
+    @include flex-column;
+    gap: $spacing-md;
+  }
+
+  &__line {
+    height: 1rem;
+    background: linear-gradient(
+      90deg,
+      var(--color-bg-tertiary) 25%,
+      var(--color-bg-secondary) 50%,
+      var(--color-bg-tertiary) 75%
+    );
+    background-size: 200% 100%;
+    border-radius: $radius-sm;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+
+    &--title {
+      height: 1.25rem;
+      width: 60%;
+      margin-bottom: $spacing-xs;
+    }
+
+    &--subtitle {
+      height: 0.875rem;
+      width: 40%;
+    }
+  }
+
+  &__header {
+    height: 2rem;
+    width: 40%;
+    background: linear-gradient(
+      90deg,
+      var(--color-bg-tertiary) 25%,
+      var(--color-bg-secondary) 50%,
+      var(--color-bg-tertiary) 75%
+    );
+    background-size: 200% 100%;
+    border-radius: $radius-sm;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+    margin-bottom: $spacing-md;
+  }
+
+  &__content {
+    @include flex-column;
+    gap: $spacing-sm;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $spacing-md;
+    padding: $spacing-md 0;
+
+    &--header {
+      border-bottom: 1px solid var(--color-border-primary);
+      padding-bottom: $spacing-sm;
+    }
+  }
+
+  &__cell {
+    height: 1.5rem;
+    background: linear-gradient(
+      90deg,
+      var(--color-bg-tertiary) 25%,
+      var(--color-bg-secondary) 50%,
+      var(--color-bg-tertiary) 75%
+    );
+    background-size: 200% 100%;
+    border-radius: $radius-sm;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+  }
+
+  &__item {
+    @include flex-row;
+    gap: $spacing-md;
+    padding: $spacing-md;
+    border-radius: $radius-md;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border-primary);
+  }
+
+  &__avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: $radius-full;
+    background: linear-gradient(
+      90deg,
+      var(--color-bg-tertiary) 25%,
+      var(--color-bg-secondary) 50%,
+      var(--color-bg-tertiary) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+

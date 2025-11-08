@@ -1,0 +1,55 @@
+<div class="chat-page">
+  <app-header></app-header>
+  
+  <header class="chat-page__header">
+    <div class="chat-page__header-content">
+      <app-button variant="outline" size="sm" routerLink="/sessions">
+        ← Back
+      </app-button>
+      <h2 class="chat-page__title">IDE Chat</h2>
+      <div class="chat-page__status">
+        <span [class]="'chat-page__status-indicator chat-page__status-indicator--' + (isConnected() ? 'connected' : 'disconnected')">
+          {{ isConnected() ? 'Connected' : 'Disconnected' }}
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main class="chat-page__main">
+    <div class="chat-page__messages">
+      @for (message of messages(); track message.ts) {
+        <div [class]="'chat-page__message chat-page__message--' + (isFromIde(message.from) ? 'ide' : 'client')">
+          <div class="chat-page__message-header">
+            <span class="chat-page__message-role">{{ message.from === 'ide' ? 'IDE' : 'You' }}</span>
+            <span class="chat-page__message-time">{{ formatTime(message.ts) }}</span>
+          </div>
+          <div class="chat-page__message-content">
+            {{ message.content }}
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="chat-page__input-area">
+      <div class="chat-page__input-wrapper">
+        <input
+          class="chat-page__input"
+          type="text"
+          placeholder="Type your message..."
+          [value]="newMessage()"
+          (input)="newMessage.set($any($event.target).value)"
+          (keyup.enter)="sendMessage()"
+          [disabled]="!isConnected()"
+        />
+        <app-button
+          variant="primary"
+          [disabled]="!isConnected() || !newMessage().trim()"
+          (click)="sendMessage()"
+        >
+          Send
+        </app-button>
+      </div>
+    </div>
+  </main>
+</div>
+

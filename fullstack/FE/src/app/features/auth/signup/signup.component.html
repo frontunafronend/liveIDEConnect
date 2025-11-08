@@ -1,0 +1,58 @@
+<div class="auth-page">
+  <div class="auth-page__container">
+    <div class="auth-page__card">
+      <h1 class="auth-page__title">Create Account</h1>
+      <p class="auth-page__subtitle">Join LiveIDEConnect</p>
+
+      @if (error()) {
+        <div class="auth-page__error">
+          {{ error() }}
+        </div>
+      }
+
+      <form class="auth-page__form" (ngSubmit)="onSubmit()">
+        <app-input
+          type="text"
+          label="Name"
+          placeholder="Your name"
+          [required]="true"
+          [(value)]="name"
+        />
+
+        <app-input
+          type="email"
+          label="Email"
+          placeholder="dev@example.com"
+          [required]="true"
+          [(value)]="email"
+        />
+
+        <app-input
+          type="password"
+          label="Password"
+          placeholder="Create a password"
+          [required]="true"
+          [(value)]="password"
+        />
+
+        <app-button
+          type="submit"
+          variant="primary"
+          [disabled]="isLoading()"
+        >
+          @if (isLoading()) {
+            Creating account...
+          } @else {
+            Sign Up
+          }
+        </app-button>
+      </form>
+
+      <p class="auth-page__footer">
+        Already have an account?
+        <a routerLink="/auth/login" class="auth-page__link">Sign in</a>
+      </p>
+    </div>
+  </div>
+</div>
+

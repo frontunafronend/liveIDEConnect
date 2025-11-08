@@ -1,0 +1,103 @@
+@use '../../../../styles/tokens' as *;
+@use '../../../../styles/mixins' as *;
+
+.sessions-page {
+  min-height: 100vh;
+  background-color: var(--color-bg-primary);
+  container-type: inline-size;
+
+  &__header {
+    background-color: var(--color-bg-elevated);
+    border-bottom: 1px solid var(--color-border-primary);
+    padding: $spacing-lg 0;
+  }
+
+  &__header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $spacing-lg;
+
+    @include mobile {
+      padding: 0 $spacing-md;
+    }
+  }
+
+  &__title {
+    margin-bottom: $spacing-xs;
+  }
+
+  &__subtitle {
+    color: var(--color-text-secondary);
+    @include typography-body-small;
+  }
+
+  &__main {
+    padding: $spacing-2xl 0;
+  }
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $spacing-md;
+  }
+
+  &__grid {
+    @include grid-auto-fit(300px);
+  }
+
+  &__empty {
+    text-align: center;
+    padding: $spacing-3xl;
+    color: var(--color-text-secondary);
+  }
+}
+
+.session-item {
+  cursor: pointer;
+  transition: transform $transition-base, box-shadow $transition-base;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-md;
+  }
+
+  &__name {
+    @include typography-heading-4;
+    margin: 0;
+    color: var(--color-text-primary);
+  }
+
+  &__status {
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-full;
+    @include typography-caption;
+    font-weight: 600;
+    text-transform: uppercase;
+
+    &--online {
+      background-color: $color-success;
+      color: $color-white;
+    }
+
+    &--offline {
+      background-color: $color-gray-400;
+      color: $color-white;
+    }
+
+    &--busy {
+      background-color: $color-warning;
+      color: $color-white;
+    }
+  }
+
+  &__meta {
+    @include typography-body-small;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+}

@@ -1,0 +1,10 @@
+<div class="stats-card" [attr.data-color]="color">
+  <div class="stats-card__header">
+    @if (icon) {
+      <span class="stats-card__icon">{{ icon }}</span>
+    }
+    <span class="stats-card__label">{{ label }}</span>
+  </div>
+  <div class="stats-card__value">{{ value }}</div>
+</div>
+

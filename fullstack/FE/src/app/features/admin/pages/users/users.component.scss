@@ -1,0 +1,104 @@
+@use '../../../../../styles/tokens' as *;
+@use '../../../../../styles/mixins' as *;
+
+.users-page {
+  &__header {
+    margin-bottom: $spacing-2xl;
+  }
+
+  &__title {
+    @include typography-heading-2;
+    color: var(--color-text-primary);
+    margin-bottom: $spacing-sm;
+  }
+
+  &__subtitle {
+    @include typography-body;
+    color: var(--color-text-secondary);
+  }
+
+  &__table {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border-primary);
+    border-radius: $radius-md;
+    overflow: hidden;
+  }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  &__head {
+    background-color: var(--color-bg-secondary);
+    border-bottom: 1px solid var(--color-border-primary);
+  }
+
+  &__head th {
+    padding: $spacing-md $spacing-lg;
+    text-align: left;
+    @include typography-body-small;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  &__body {
+    background-color: var(--color-surface);
+  }
+
+  &__row {
+    border-bottom: 1px solid var(--color-border-primary);
+    transition: background-color $transition-fast;
+
+    &:hover {
+      background-color: var(--color-surface-hover);
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__row td {
+    padding: $spacing-md $spacing-lg;
+    @include typography-body;
+    color: var(--color-text-primary);
+  }
+
+  &__badge {
+    display: inline-block;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-full;
+    @include typography-caption;
+    font-weight: 600;
+    text-transform: uppercase;
+
+    &[data-role='admin'] {
+      background-color: $color-primary;
+      color: $color-white;
+    }
+
+    &[data-role='user'] {
+      background-color: var(--color-bg-tertiary);
+      color: var(--color-text-secondary);
+    }
+  }
+
+  &__actions {
+    @include flex-row;
+    gap: $spacing-sm;
+  }
+
+  &__no-action {
+    @include typography-body-small;
+    color: var(--color-text-tertiary);
+    font-style: italic;
+  }
+
+  &__empty {
+    text-align: center;
+    padding: $spacing-2xl;
+    color: var(--color-text-secondary);
+  }
+}
+

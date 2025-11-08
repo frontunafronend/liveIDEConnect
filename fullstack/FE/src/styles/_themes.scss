@@ -1,0 +1,91 @@
+/**
+ * Theme Variables
+ * CSS custom properties for light/dark themes
+ */
+
+:root {
+  // Default light theme
+  // Background Colors
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f8f8f8;
+  --color-bg-tertiary: #f3f4f6;
+  --color-bg-elevated: #ffffff;
+  
+  // Text Colors
+  --color-text-primary: #333333;
+  --color-text-secondary: #666666;
+  --color-text-tertiary: #9ca3af;
+  
+  // Border Colors
+  --color-border-primary: #e5e7eb;
+  --color-border-secondary: #d1d5db;
+  
+  // Surface Colors (for cards, inputs, etc.)
+  --color-surface: #ffffff;
+  --color-surface-hover: #f9fafb;
+  --color-surface-active: #f3f4f6;
+  
+  // Message Colors (Cursor chat style)
+  --color-message-ide-bg: #f3f4f6;
+  --color-message-ide-border: #e5e7eb;
+  --color-message-client-bg: #10b981;
+  --color-message-client-text: #ffffff;
+  
+  // Input Colors
+  --color-input-bg: #ffffff;
+  --color-input-border: #e5e7eb;
+  --color-input-focus-border: #10b981;
+  --color-input-focus-ring: rgba(16, 185, 129, 0.1);
+  
+  // Shadow
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 4px 8px 0 rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme='dark'] {
+  // Background Colors
+  --color-bg-primary: #0f172a;
+  --color-bg-secondary: #1e293b;
+  --color-bg-tertiary: #334155;
+  --color-bg-elevated: #1e293b;
+  
+  // Text Colors
+  --color-text-primary: #f1f5f9;
+  --color-text-secondary: #cbd5e1;
+  --color-text-tertiary: #94a3b8;
+  
+  // Border Colors
+  --color-border-primary: #334155;
+  --color-border-secondary: #475569;
+  
+  // Surface Colors
+  --color-surface: #1e293b;
+  --color-surface-hover: #334155;
+  --color-surface-active: #475569;
+  
+  // Message Colors (Cursor chat style)
+  --color-message-ide-bg: #1e293b;
+  --color-message-ide-border: #334155;
+  --color-message-client-bg: #10b981;
+  --color-message-client-text: #ffffff;
+  
+  // Input Colors
+  --color-input-bg: #1e293b;
+  --color-input-border: #334155;
+  --color-input-focus-border: #34d399;
+  --color-input-focus-ring: rgba(52, 211, 153, 0.2);
+  
+  // Shadow
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 2px 4px 0 rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+}
+
+// Apply theme variables globally
+body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+

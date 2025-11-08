@@ -1,0 +1,48 @@
+<header class="header">
+  <div class="header__container">
+    <div class="header__brand">
+      <div class="header__logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="6" fill="#10B981"/>
+          <path d="M16 8L22 14H18V20H14V14H10L16 8Z" fill="white"/>
+          <path d="M16 24L10 18H14V12H18V18H22L16 24Z" fill="white" opacity="0.8"/>
+        </svg>
+      </div>
+      <h1 class="header__title">webplace liveIDEConnect</h1>
+    </div>
+    
+    @if (currentUser()) {
+      <div class="header__user">
+        <button 
+          class="header__theme-toggle" 
+          (click)="toggleTheme()"
+          [attr.aria-label]="isDark() ? 'Switch to light theme' : 'Switch to dark theme'"
+          type="button"
+        >
+          @if (isDark()) {
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 3V1M10 19V17M17 10H19M1 10H3M15.657 15.657L16.97 16.97M3.03 3.03L4.343 4.343M15.657 4.343L16.97 3.03M3.03 16.97L4.343 15.657M14 10C14 12.2091 12.2091 14 10 14C7.79086 14 6 12.2091 6 10C6 7.79086 7.79086 6 10 6C12.2091 6 14 7.79086 14 10Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          } @else {
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.293 13.293C16.3785 14.2075 15.2352 14.8621 13.9779 15.1919C12.7206 15.5217 11.3936 15.5159 10.1405 15.1755C8.8874 14.8351 7.7501 14.1708 6.8445 13.2652C5.9389 12.3596 5.2746 11.2223 4.9342 9.96922C4.5938 8.71612 4.588 7.38912 4.9178 6.13184C5.2476 4.87456 5.9022 3.73124 6.8167 2.81675C7.7312 1.90226 8.8745 1.24766 10.1318 0.917858C11.3891 0.588055 12.7161 0.593857 13.9692 0.934258C15.2223 1.27466 16.3596 1.93896 17.2652 2.84456C18.1708 3.75016 18.8351 4.88746 19.1755 6.14056C19.5159 7.39366 19.5217 8.72066 19.1919 9.97794C18.8621 11.2352 18.2075 12.3785 17.293 13.293Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          }
+        </button>
+        @if (isAdmin()) {
+          <button class="header__admin-btn" (click)="navigateToAdmin()" type="button">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 1L11.5 6.5L17.5 7.5L13 11.5L14 17.5L9 14.5L4 17.5L5 11.5L0.5 7.5L6.5 6.5L9 1Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Admin</span>
+          </button>
+        }
+        <span class="header__user-name">{{ currentUser()?.name }}</span>
+        <button class="header__logout" (click)="logout()">
+          Logout
+        </button>
+      </div>
+    }
+  </div>
+</header>
+

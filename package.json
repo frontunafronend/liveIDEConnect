@@ -1,0 +1,33 @@
+{
+  "name": "liveideconnect",
+  "version": "1.0.0",
+  "description": "Webplace LiveIDEConnect - Full-stack Angular + Node.js TypeScript monorepo",
+  "private": true,
+  "scripts": {
+    "install:all": "npm --prefix fullstack/BE install && npm --prefix fullstack/FE install --legacy-peer-deps",
+    "dev": "concurrently \"npm:dev:be\" \"npm:dev:fe\"",
+    "dev:be": "npm --prefix fullstack/BE run dev",
+    "dev:fe": "npm --prefix fullstack/FE start",
+    "build": "npm run build:be && npm run build:fe",
+    "build:be": "npm --prefix fullstack/BE run build",
+    "build:fe": "npm --prefix fullstack/FE run build",
+    "test": "npm run test:be && npm run test:fe",
+    "test:be": "npm --prefix fullstack/BE test",
+    "test:fe": "npm --prefix fullstack/FE test",
+    "lint": "npm run lint:be && npm run lint:fe",
+    "lint:be": "npm --prefix fullstack/BE run lint",
+    "lint:fe": "npm --prefix fullstack/FE run lint",
+    "format": "prettier --write \"**/*.{ts,js,json,scss,html}\"",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "husky": "^8.0.3",
+    "prettier": "^3.2.5"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}
+

@@ -1,0 +1,20 @@
+<div class="input-group">
+  @if (label()) {
+    <label class="input-group__label">
+      {{ label() }}
+      @if (required()) {
+        <span class="input-group__required">*</span>
+      }
+    </label>
+  }
+  <input
+    class="input-group__input"
+    [type]="type()"
+    [placeholder]="placeholder()"
+    [required]="required()"
+    [disabled]="disabled()"
+    [ngModel]="value()"
+    (ngModelChange)="value.set($event); valueChange.emit($event)"
+  />
+</div>
+

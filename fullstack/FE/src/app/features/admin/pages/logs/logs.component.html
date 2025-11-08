@@ -1,0 +1,72 @@
+<div class="logs-page">
+  <header class="logs-page__header">
+    <h1 class="logs-page__title">System Logs</h1>
+    <p class="logs-page__subtitle">Chronological event log of messages and session activity</p>
+  </header>
+
+  @if (isLoading) {
+    <app-skeleton-loader type="table" [lines]="10"></app-skeleton-loader>
+  } @else {
+    <div class="logs-page__table">
+      <table class="logs-table">
+        <thead class="logs-table__head">
+          <tr>
+            <th>Type</th>
+            <th>Action</th>
+            <th>User ID</th>
+            <th>Session ID</th>
+            <th>Details</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody class="logs-table__body">
+          @for (log of logs(); track log.id) {
+            <tr class="logs-table__row">
+              <td>
+                <span class="logs-table__type" [ngClass]="getTypeClass(log.type)">
+                  <span class="logs-table__type-icon">{{ getTypeIcon(log.type) }}</span>
+                  {{ log.type }}
+                </span>
+              </td>
+              <td>{{ log.action }}</td>
+              <td>
+                @if (log.userId) {
+                  <code class="logs-table__code">{{ log.userId.substring(0, 8) }}...</code>
+                } @else {
+                  <span class="logs-table__empty">—</span>
+                }
+              </td>
+              <td>
+                @if (log.sessionId) {
+                  <code class="logs-table__code">{{ log.sessionId.substring(0, 8) }}...</code>
+                } @else {
+                  <span class="logs-table__empty">—</span>
+                }
+              </td>
+              <td>
+                <details class="logs-table__details">
+                  <summary>View</summary>
+                  <pre>{{ log.details | json }}</pre>
+                </details>
+              </td>
+              <td>{{ formatDate(log.timestamp) }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="logs-table__empty">No logs found</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (logs().length < total) {
+      <div class="logs-page__footer">
+        <button class="logs-page__load-more" (click)="loadMore()">
+          Load More ({{ total - logs().length }} remaining)
+        </button>
+      </div>
+    }
+  }
+</div>
+
