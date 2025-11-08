@@ -173,7 +173,7 @@
 
 @mixin button-outline {
   @include button-base;
-  background-color: transparent;
+  background-color: $color-white;
   color: $color-gray-800;
   border: 1px solid $color-gray-300;
   font-weight: 500;
