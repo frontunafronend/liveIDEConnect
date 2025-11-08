@@ -29,18 +29,25 @@ async function build() {
   try {
     const dbConnected = await testConnection();
     if (!dbConnected) {
+      fastify.log.warn('Database connection failed - some features may not work');
     } else {
+      fastify.log.info('Database connected successfully');
       try {
         await initDatabase();
+        fastify.log.info('Database initialized');
         try {
           const { seedDatabase } = await import('./db/seed');
           await seedDatabase();
-        } catch (error) {
+          fastify.log.info('Database seeded successfully');
+        } catch (error: any) {
+          fastify.log.error('Database seed error:', error?.message || error);
         }
-      } catch (error) {
+      } catch (error: any) {
+        fastify.log.error('Database init error:', error?.message || error);
       }
     }
-  } catch (error) {
+  } catch (error: any) {
+    fastify.log.error('Build error:', error?.message || error);
   }
 
   await fastify.register(cors, {
