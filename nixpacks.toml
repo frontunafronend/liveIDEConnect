@@ -1,0 +1,12 @@
+[phases.setup]
+nixPkgs = ["nodejs-18_x"]
+
+[phases.install]
+cmds = ["cd fullstack/BE && npm ci"]
+
+[phases.build]
+cmds = ["cd fullstack/BE && npm run build"]
+
+[start]
+cmd = "cd fullstack/BE && npm start"
+
