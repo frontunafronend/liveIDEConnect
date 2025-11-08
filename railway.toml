@@ -1,6 +1,7 @@
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "fullstack/BE/Dockerfile"
+buildContext = "."
 
 [deploy]
 startCommand = "npm start"

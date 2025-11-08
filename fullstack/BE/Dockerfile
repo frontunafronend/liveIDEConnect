@@ -2,14 +2,14 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files from fullstack/BE
+COPY fullstack/BE/package*.json ./
 
 # Install all dependencies (including devDependencies for build)
 RUN npm ci
 
-# Copy source code
-COPY . .
+# Copy source code from fullstack/BE
+COPY fullstack/BE/ ./
 
 # Build TypeScript
 RUN npm run build
