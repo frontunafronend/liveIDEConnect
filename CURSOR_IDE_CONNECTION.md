@@ -8,9 +8,18 @@
 2. Open browser DevTools (F12) → Console
 3. Run this to get your token:
    ```javascript
-   JSON.parse(localStorage.getItem('user') || '{}').token || sessionStorage.getItem('token')
+   sessionStorage.getItem('auth_token')
    ```
 4. Copy the token (it's a long JWT string)
+
+**Note:** The token is stored in `sessionStorage` as `auth_token`, not in localStorage. If you need user info:
+```javascript
+// Get token
+const token = sessionStorage.getItem('auth_token');
+
+// Get user info (optional)
+const user = JSON.parse(localStorage.getItem('auth_user') || 'null');
+```
 
 ### Step 2: Create a Session
 
