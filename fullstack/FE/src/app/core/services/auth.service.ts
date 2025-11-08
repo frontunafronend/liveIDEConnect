@@ -27,6 +27,9 @@ export class AuthService {
     private storage: StorageService,
     private snackbar: ErrorSnackbarService
   ) {
+    // Debug: Log the API URL to verify environment is correct
+    console.log('AuthService API URL:', this.apiUrl);
+    console.log('Environment apiBaseUrl:', environment.apiBaseUrl);
     // Load from secure storage on init
     const storedToken = this.storage.getToken();
     const storedUser = this.storage.getUser();
