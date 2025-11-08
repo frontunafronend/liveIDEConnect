@@ -1,4 +1,6 @@
 {
+  "buildCommand": "npm run build:prod",
+  "outputDirectory": "dist/liveideconnect/browser",
   "rewrites": [
     {
       "source": "/(.*)",
