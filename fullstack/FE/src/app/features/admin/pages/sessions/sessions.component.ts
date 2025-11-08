@@ -36,6 +36,11 @@ export class SessionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadSessions();
+    // Auto-fill token from sessionStorage if available
+    const storedToken = sessionStorage.getItem('auth_token');
+    if (storedToken) {
+      this.sessionToken.set(storedToken);
+    }
   }
 
   loadSessions(): void {
@@ -66,15 +71,6 @@ export class SessionsComponent implements OnInit {
 
   formatDate(dateString: string): string {
     return new Date(dateString).toLocaleString();
-  }
-
-  ngOnInit(): void {
-    this.loadSessions();
-    // Auto-fill token from sessionStorage if available
-    const storedToken = sessionStorage.getItem('auth_token');
-    if (storedToken) {
-      this.sessionToken.set(storedToken);
-    }
   }
 
   openCreateModal(): void {
