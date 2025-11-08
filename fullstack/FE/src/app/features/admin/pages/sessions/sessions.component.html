@@ -1,7 +1,20 @@
 <div class="sessions-page">
   <header class="sessions-page__header">
-    <h1 class="sessions-page__title">Sessions Monitor</h1>
-    <p class="sessions-page__subtitle">View all active IDE sessions and their status</p>
+    <div>
+      <h1 class="sessions-page__title">Sessions Monitor</h1>
+      <p class="sessions-page__subtitle">View all active IDE sessions and their status</p>
+    </div>
+    <app-button
+      variant="primary"
+      [disabled]="isCreating()"
+      (click)="createSession()"
+    >
+      @if (isCreating()) {
+        Creating...
+      } @else {
+        + New Session
+      }
+    </app-button>
   </header>
 
   @if (isLoading) {

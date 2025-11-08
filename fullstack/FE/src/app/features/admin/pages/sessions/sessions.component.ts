@@ -1,23 +1,29 @@
-import { Component, OnInit, Signal } from '@angular/core';
+import { Component, OnInit, Signal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { AdminService, AdminSession } from '@core/services/admin.service';
+import { SessionsService } from '@core/services/sessions.service';
 import { ErrorSnackbarService } from '@core/services/error-snackbar.service';
 import { SkeletonLoaderComponent } from '@shared/components/skeleton-loader/skeleton-loader.component';
+import { ButtonComponent } from '@shared/components/button/button.component';
 
 @Component({
   selector: 'app-sessions',
   standalone: true,
-  imports: [CommonModule, SkeletonLoaderComponent],
+  imports: [CommonModule, SkeletonLoaderComponent, ButtonComponent],
   templateUrl: './sessions.component.html',
   styleUrl: './sessions.component.scss'
 })
 export class SessionsComponent implements OnInit {
   sessions!: Signal<AdminSession[]>;
   isLoading = true;
+  isCreating = signal(false);
 
   constructor(
     private adminService: AdminService,
-    private snackbar: ErrorSnackbarService
+    private sessionsService: SessionsService,
+    private snackbar: ErrorSnackbarService,
+    private router: Router
   ) {
     this.sessions = this.adminService.sessions;
   }
@@ -54,6 +60,23 @@ export class SessionsComponent implements OnInit {
 
   formatDate(dateString: string): string {
     return new Date(dateString).toLocaleString();
+  }
+
+  createSession(): void {
+    this.isCreating.set(true);
+    const sessionName = `Test Session - ${new Date().toLocaleString()}`;
+    
+    this.sessionsService.createSession(sessionName, 'online').subscribe({
+      next: (newSession) => {
+        this.isCreating.set(false);
+        // Navigate to the chat page
+        this.router.navigate(['/chat', newSession.id]);
+      },
+      error: (error) => {
+        this.isCreating.set(false);
+        this.snackbar.error('Failed to create session. Please try again.');
+      }
+    });
   }
 }
 
