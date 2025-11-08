@@ -381,13 +381,46 @@ npm run lint:fix   # Auto-fix linting
 
 ### Backend (Railway)
 
-1. Connect your GitHub repository
-2. Set environment variables:
-   - `PORT` (default: 4000)
-   - `JWT_SECRET` (use a strong secret)
-   - `DATABASE_URL` (your Neon Postgres connection string)
-   - `NODE_ENV=production`
-3. Railway will automatically build and deploy using the Dockerfile
+#### Quick Setup
+
+1. **Connect Repository**
+   - Go to [Railway Dashboard](https://railway.app)
+   - Click "New Project" → "Deploy from GitHub repo"
+   - Select `frontunafronend/liveIDEConnect`
+   - Set **Root Directory** to: `fullstack/BE`
+
+2. **Set Environment Variables** (in Railway → Variables tab):
+   ```env
+   PORT=4000
+   HOST=0.0.0.0
+   NODE_ENV=production
+   DATABASE_URL=postgresql://user:password@host:port/database?sslmode=require
+   JWT_SECRET=your-super-secret-jwt-key-min-32-chars
+   OPENAI_API_KEY=sk-... (optional, for AI Guard v2 summaries)
+   ```
+
+3. **Get Your Backend URL**
+   - Railway assigns: `your-app-name.up.railway.app`
+   - Your API base: `https://your-app-name.up.railway.app/api`
+   - WebSocket URL: `wss://your-app-name.up.railway.app/ws`
+
+4. **Deploy**
+   - Railway auto-deploys on push to `main` branch
+   - Or click "Deploy" in Railway dashboard
+   - Check logs for successful startup
+
+5. **Verify**
+   - Visit: `https://your-app-name.up.railway.app/health`
+   - Should return: `{"status":"ok","database":"connected"}`
+
+#### Detailed Setup
+
+See [RAILWAY_SETUP.md](./RAILWAY_SETUP.md) for complete deployment guide including:
+- Environment variable setup
+- Database connection configuration
+- Custom domain setup
+- Monitoring and troubleshooting
+- Scaling options
 
 ### Frontend (Vercel)
 
