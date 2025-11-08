@@ -1,7 +1,7 @@
 export const env = {
   production: true,
-  apiBaseUrl: process.env['API_BASE_URL'] || 'https://api.yourdomain.com/api',
-  wsUrl: process.env['WS_URL'] || 'wss://api.yourdomain.com/ws'
+  apiBaseUrl: process.env['API_BASE_URL'] || 'https://liveideconnect-production.up.railway.app/api',
+  wsUrl: process.env['WS_URL'] || 'wss://liveideconnect-production.up.railway.app/ws'
 };
 
 // Legacy export for compatibility
