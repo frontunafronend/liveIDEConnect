@@ -9,6 +9,11 @@ const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-key-change-in-productio
 export async function authRoutes(fastify: FastifyInstance) {
   const usersRepo = new UsersRepository();
 
+  // Health check for auth routes
+  fastify.get('/api/auth', async (request, reply) => {
+    return { status: 'ok', message: 'Auth routes are available' };
+  });
+
   // Login endpoint
   fastify.post<{
     Body: { email: string; password: string };
