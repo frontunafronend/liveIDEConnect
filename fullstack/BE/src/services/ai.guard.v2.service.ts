@@ -393,9 +393,16 @@ export class AIGuardV2Service {
 
     try {
       // Dynamic import to avoid requiring openai package if not available
-      const { default: OpenAI } = await import('openai');
+      // @ts-ignore - openai is an optional dependency, may not be installed
+      const openaiModule = await import('openai');
+      if (!openaiModule || !openaiModule.default) {
+        return null;
+      }
+      const OpenAI = openaiModule.default;
+      // @ts-ignore - OpenAI types may not be available
       const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
+      // @ts-ignore - OpenAI API types may not be available
       const response = await openai.chat.completions.create({
         model: 'gpt-4o-mini',
         messages: [
@@ -422,6 +429,7 @@ export class AIGuardV2Service {
         temperature: 0.7
       });
 
+      // @ts-ignore - Response types may not be available
       return response.choices[0]?.message?.content?.trim() || null;
     } catch (error) {
       return null;
