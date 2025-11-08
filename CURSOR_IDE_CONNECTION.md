@@ -14,10 +14,11 @@
 
 ### Step 2: Create a Session
 
-**Option A: Via Web UI**
+**Option A: Via Web UI (Easiest)**
 1. Go to `https://live-ide-connect.vercel.app/sessions`
-2. Click "New Session" or create one
-3. Copy the Session ID from the URL or session card
+2. Click the **"+ New Session"** button in the header
+3. You'll be automatically redirected to the chat page
+4. Copy the Session ID from the URL (e.g., `/chat/abc-123-def` → `abc-123-def`)
 
 **Option B: Via API**
 ```bash
