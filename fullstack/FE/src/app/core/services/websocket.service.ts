@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { LiveIdeMessage } from '../types';
 import { environment } from '../../../environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +15,20 @@ export class WebSocketService {
   readonly messages$ = this.messageSubject.asObservable();
   readonly isConnected = this._isConnected.asReadonly();
 
+  constructor(private authService: AuthService) {}
+
   connect(sessionId: string): void {
     if (this.ws?.readyState === WebSocket.OPEN) {
       this.disconnect();
     }
 
-    const wsUrl = `${environment.wsUrl}?sessionId=${sessionId}`;
+    const token = this.authService.getAuthToken();
+    if (!token) {
+      console.error('No authentication token available');
+      return;
+    }
+
+    const wsUrl = `${environment.wsUrl}?sessionId=${sessionId}&token=${token}`;
     this.ws = new WebSocket(wsUrl);
 
     this.ws.onopen = () => {
