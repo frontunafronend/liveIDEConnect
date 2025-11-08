@@ -2,13 +2,12 @@ import { Component, OnInit, OnDestroy, effect, signal, computed } from '@angular
 import { CommonModule, DatePipe } from '@angular/common';
 import { MonitorService, MonitorData, SystemStatus } from '@core/services/monitor.service';
 import { ErrorSnackbarService } from '@core/services/error-snackbar.service';
-import { StatsCardComponent } from '../../components/stats-card/stats-card.component';
 import { SkeletonLoaderComponent } from '@shared/components/skeleton-loader/skeleton-loader.component';
 
 @Component({
   selector: 'app-monitor',
   standalone: true,
-  imports: [CommonModule, StatsCardComponent, SkeletonLoaderComponent, DatePipe],
+  imports: [CommonModule, SkeletonLoaderComponent, DatePipe],
   templateUrl: './monitor.component.html',
   styleUrl: './monitor.component.scss'
 })
