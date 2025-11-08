@@ -10,6 +10,12 @@ export function getDbPool(): Pool {
       throw new Error('DATABASE_URL environment variable is not set');
     }
 
+    // Log connection string format (mask password for security)
+    const maskedUrl = connectionString.replace(/:([^:@]+)@/, ':****@');
+    console.log('DATABASE_URL format:', maskedUrl);
+    console.log('DATABASE_URL length:', connectionString.length);
+    console.log('DATABASE_URL starts with:', connectionString.substring(0, 20));
+
     const config: PoolConfig = {
       connectionString,
       ssl: connectionString.includes('sslmode=require') || connectionString.includes('neon.tech')
