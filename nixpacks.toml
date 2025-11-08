@@ -1,3 +1,6 @@
+# Nixpacks configuration for Railway/Railpack
+# This tells Railpack to look in fullstack/BE directory
+
 [phases.setup]
 nixPkgs = ["nodejs-18_x"]
 
