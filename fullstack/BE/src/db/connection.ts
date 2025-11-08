@@ -41,15 +41,20 @@ export async function closeDbPool(): Promise<void> {
 export async function testConnection(): Promise<boolean> {
   try {
     if (!process.env.DATABASE_URL) {
+      console.error('DATABASE_URL environment variable is not set');
       return false;
     }
     const db = getDbPool();
     const result = await db.query('SELECT NOW()');
+    console.log('Database connection test successful');
     return true;
   } catch (error: any) {
-    if (error.message?.includes('DATABASE_URL')) {
-      return false;
-    }
+    console.error('Database connection test failed:', error.message);
+    console.error('Error details:', {
+      code: error.code,
+      message: error.message,
+      stack: error.stack
+    });
     return false;
   }
 }
