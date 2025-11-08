@@ -136,6 +136,10 @@
     @include button-outline;
     padding: $spacing-xs $spacing-md;
     font-size: 0.875rem;
-    color: var(--color-text-primary);
+    color: $color-gray-900;
+
+    &:hover:not(:disabled) {
+      color: $color-black;
+    }
   }
 }
