@@ -9,11 +9,12 @@ import { SkeletonLoaderComponent } from '@shared/components/skeleton-loader/skel
 import { ButtonComponent } from '@shared/components/button/button.component';
 import { InputComponent } from '@shared/components/input/input.component';
 import { ModalComponent } from '@shared/components/modal/modal.component';
+import { DropdownMenuComponent, DropdownMenuItem } from '@shared/components/dropdown-menu/dropdown-menu.component';
 
 @Component({
   selector: 'app-sessions',
   standalone: true,
-  imports: [CommonModule, FormsModule, SkeletonLoaderComponent, ButtonComponent, InputComponent, ModalComponent],
+  imports: [CommonModule, FormsModule, SkeletonLoaderComponent, ButtonComponent, InputComponent, ModalComponent, DropdownMenuComponent],
   templateUrl: './sessions.component.html',
   styleUrl: './sessions.component.scss'
 })
@@ -118,18 +119,26 @@ export class SessionsComponent implements OnInit {
     });
   }
 
-  onDeleteClick(event: Event, session: AdminSession): void {
-    event.stopPropagation(); // Prevent row click
-    if (confirm(`Are you sure you want to delete "${session.name}"?`)) {
-      this.adminService.deleteSession(session.id).subscribe({
-        next: () => {
-          this.snackbar.success('Session deleted successfully');
-        },
-        error: (error) => {
-          this.snackbar.error('Failed to delete session. Please try again.');
+  getSessionMenuItems(session: AdminSession): DropdownMenuItem[] {
+    return [
+      {
+        label: 'Delete',
+        icon: '🗑️',
+        danger: true,
+        action: () => {
+          if (confirm(`Are you sure you want to delete "${session.name}"?`)) {
+            this.adminService.deleteSession(session.id).subscribe({
+              next: () => {
+                this.snackbar.success('Session deleted successfully');
+              },
+              error: (error) => {
+                this.snackbar.error('Failed to delete session. Please try again.');
+              }
+            });
+          }
         }
-      });
-    }
+      }
+    ];
   }
 }
 

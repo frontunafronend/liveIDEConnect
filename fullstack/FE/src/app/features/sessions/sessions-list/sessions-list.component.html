@@ -88,14 +88,9 @@
                   Last active: {{ formatLastActive(session.lastActive) }}
                 </p>
               </div>
-              <button
-                class="session-item__delete"
-                (click)="onDeleteClick($event, session)"
-                aria-label="Delete session"
-                title="Delete session"
-              >
-                🗑️
-              </button>
+              <div class="session-item__actions" (click)="$event.stopPropagation()">
+                <app-dropdown-menu [items]="getSessionMenuItems(session)"></app-dropdown-menu>
+              </div>
             </app-card>
           }
         </div>

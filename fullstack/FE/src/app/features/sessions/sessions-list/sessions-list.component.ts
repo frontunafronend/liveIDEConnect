@@ -10,12 +10,13 @@ import { HeaderComponent } from '@shared/components/header/header.component';
 import { ButtonComponent } from '@shared/components/button/button.component';
 import { InputComponent } from '@shared/components/input/input.component';
 import { ModalComponent } from '@shared/components/modal/modal.component';
+import { DropdownMenuComponent, DropdownMenuItem } from '@shared/components/dropdown-menu/dropdown-menu.component';
 import { ErrorSnackbarService } from '@core/services/error-snackbar.service';
 
 @Component({
   selector: 'app-sessions-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, CardComponent, HeaderComponent, ButtonComponent, InputComponent, ModalComponent],
+  imports: [CommonModule, FormsModule, CardComponent, HeaderComponent, ButtonComponent, InputComponent, ModalComponent, DropdownMenuComponent],
   templateUrl: './sessions-list.component.html',
   styleUrl: './sessions-list.component.scss'
 })
@@ -90,18 +91,26 @@ export class SessionsListComponent implements OnInit {
     this.router.navigate(['/chat', session.id]);
   }
 
-  onDeleteClick(event: Event, session: LiveIdeSession): void {
-    event.stopPropagation(); // Prevent card click
-    if (confirm(`Are you sure you want to delete "${session.name}"?`)) {
-      this.sessionsService.deleteSession(session.id).subscribe({
-        next: () => {
-          this.snackbar.success('Session deleted successfully');
-        },
-        error: (error) => {
-          this.snackbar.error('Failed to delete session. Please try again.');
+  getSessionMenuItems(session: LiveIdeSession): DropdownMenuItem[] {
+    return [
+      {
+        label: 'Delete',
+        icon: '🗑️',
+        danger: true,
+        action: () => {
+          if (confirm(`Are you sure you want to delete "${session.name}"?`)) {
+            this.sessionsService.deleteSession(session.id).subscribe({
+              next: () => {
+                this.snackbar.success('Session deleted successfully');
+              },
+              error: (error) => {
+                this.snackbar.error('Failed to delete session. Please try again.');
+              }
+            });
+          }
         }
-      });
-    }
+      }
+    ];
   }
 
   openCreateModal(): void {

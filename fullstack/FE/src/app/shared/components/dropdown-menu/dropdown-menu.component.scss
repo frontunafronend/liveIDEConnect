@@ -1,0 +1,114 @@
+@use '../../../../styles/tokens' as *;
+@use '../../../../styles/mixins' as *;
+
+.dropdown-menu {
+  position: relative;
+  display: inline-block;
+
+  &__trigger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: $spacing-xs;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $radius-sm;
+    transition: background-color $transition-fast;
+    color: var(--color-text-secondary);
+
+    &:hover {
+      background-color: var(--color-bg-secondary);
+      color: var(--color-text-primary);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  &__icon {
+    font-size: 1.25rem;
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    display: inline-block;
+    transform: rotate(90deg);
+  }
+
+  &__content {
+    position: absolute;
+    top: calc(100% + $spacing-xs);
+    right: 0;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border-primary);
+    border-radius: $radius-md;
+    box-shadow: $shadow-lg;
+    min-width: 180px;
+    z-index: $z-dropdown;
+    overflow: hidden;
+    animation: fadeInScale 0.15s ease-out;
+  }
+
+  &__item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-sm $spacing-md;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color $transition-fast;
+    color: var(--color-text-primary);
+    @include typography-body;
+
+    &:hover:not(&--disabled) {
+      background-color: var(--color-bg-secondary);
+    }
+
+    &:active:not(&--disabled) {
+      background-color: var(--color-bg-tertiary);
+    }
+
+    &--danger {
+      color: var(--color-error, #ef4444);
+
+      &:hover:not(&--disabled) {
+        background-color: rgba(239, 68, 68, 0.1);
+      }
+    }
+
+    &--disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &__item-icon {
+    font-size: 1rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+  }
+
+  &__item-label {
+    flex: 1;
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+

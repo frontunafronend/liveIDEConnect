@@ -1,0 +1,31 @@
+<div class="dropdown-menu">
+  <button
+    class="dropdown-menu__trigger"
+    (click)="toggleMenu($event)"
+    aria-label="More options"
+    type="button"
+  >
+    <span class="dropdown-menu__icon">⋯</span>
+  </button>
+
+  @if (isOpen()) {
+    <div class="dropdown-menu__content">
+      @for (item of items(); track $index) {
+        <button
+          class="dropdown-menu__item"
+          [class.dropdown-menu__item--danger]="item.danger"
+          [class.dropdown-menu__item--disabled]="item.disabled"
+          [disabled]="item.disabled"
+          (click)="onItemClick(item, $event)"
+          type="button"
+        >
+          @if (item.icon) {
+            <span class="dropdown-menu__item-icon">{{ item.icon }}</span>
+          }
+          <span class="dropdown-menu__item-label">{{ item.label }}</span>
+        </button>
+      }
+    </div>
+  }
+</div>
+

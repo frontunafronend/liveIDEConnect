@@ -96,14 +96,9 @@
               <td>{{ formatDate(session.lastActive) }}</td>
               <td>{{ formatDate(session.createdAt) }}</td>
               <td>
-                <button
-                  class="sessions-table__delete"
-                  (click)="onDeleteClick($event, session)"
-                  aria-label="Delete session"
-                  title="Delete session"
-                >
-                  🗑️
-                </button>
+                <div class="sessions-table__actions">
+                  <app-dropdown-menu [items]="getSessionMenuItems(session)"></app-dropdown-menu>
+                </div>
               </td>
             </tr>
           } @empty {
