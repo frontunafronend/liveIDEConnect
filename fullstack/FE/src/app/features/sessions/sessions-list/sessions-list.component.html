@@ -76,16 +76,26 @@
       } @else {
         <div class="sessions-page__grid">
           @for (session of sessions(); track session.id) {
-            <app-card class="session-item" (click)="onSessionClick(session)">
-              <div class="session-item__header">
-                <h3 class="session-item__name">{{ session.name }}</h3>
-                <span [class]="getStatusClass(session.status)">
-                  {{ getStatusLabel(session.status) }}
-                </span>
+            <app-card class="session-item">
+              <div class="session-item__content" (click)="onSessionClick(session)">
+                <div class="session-item__header">
+                  <h3 class="session-item__name">{{ session.name }}</h3>
+                  <span [class]="getStatusClass(session.status)">
+                    {{ getStatusLabel(session.status) }}
+                  </span>
+                </div>
+                <p class="session-item__meta">
+                  Last active: {{ formatLastActive(session.lastActive) }}
+                </p>
               </div>
-              <p class="session-item__meta">
-                Last active: {{ formatLastActive(session.lastActive) }}
-              </p>
+              <button
+                class="session-item__delete"
+                (click)="onDeleteClick($event, session)"
+                aria-label="Delete session"
+                title="Delete session"
+              >
+                🗑️
+              </button>
             </app-card>
           }
         </div>

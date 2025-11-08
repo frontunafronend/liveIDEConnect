@@ -312,6 +312,47 @@ export async function adminRoutes(fastify: FastifyInstance) {
     }
   });
 
+  // Delete session (admin - can delete any session)
+  fastify.delete<{
+    Params: { id: string };
+    Reply: { success: boolean; message: string } | { error: string; message: string };
+  }>('/api/admin/sessions/:id', {
+    preHandler: [authenticate, adminGuard]
+  }, async (request: AuthenticatedRequest, reply) => {
+    try {
+      const { id } = request.params as { id: string };
+      
+      // Check if session exists
+      const session = await sessionsRepo.findById(id);
+      if (!session) {
+        return reply.status(404).send({
+          error: 'Not Found',
+          message: 'Session not found'
+        });
+      }
+
+      // Admin can delete any session - use the session's userId for the delete
+      const deleted = await sessionsRepo.delete(id, session.userId);
+      if (deleted) {
+        return reply.status(200).send({
+          success: true,
+          message: 'Session deleted successfully'
+        });
+      } else {
+        return reply.status(500).send({
+          error: 'Internal Server Error',
+          message: 'Failed to delete session'
+        });
+      }
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.status(500).send({
+        error: 'Internal Server Error',
+        message: 'Failed to delete session'
+      });
+    }
+  });
+
   // AI Guard v2 - System Monitor
   fastify.get<{
     Reply: {

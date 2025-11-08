@@ -113,6 +113,16 @@ export class AdminService {
     return this.http.delete<{ success: boolean }>(`${this.apiUrl}/users/${id}`);
   }
 
+  deleteSession(id: string): Observable<{ success: boolean; message: string }> {
+    return this.http.delete<{ success: boolean; message: string }>(`${this.apiUrl}/sessions/${id}`).pipe(
+      tap(() => {
+        // Remove the session from the list
+        const currentSessions = this._sessions();
+        this._sessions.set(currentSessions.filter(s => s.id !== id));
+      })
+    );
+  }
+
   refreshAll(): void {
     this.loadOverview().subscribe();
     this.loadUsers().subscribe();

@@ -108,5 +108,59 @@ export async function sessionsRoutes(fastify: FastifyInstance) {
       });
     }
   });
+
+  // Delete session (protected - user must own the session)
+  fastify.delete<{
+    Params: { id: string };
+    Reply: { success: boolean; message: string } | ApiError;
+  }>('/api/sessions/:id', {
+    preHandler: authenticate
+  }, async (request: AuthenticatedRequest, reply) => {
+    try {
+      if (!request.userId) {
+        return reply.status(401).send({
+          error: 'Unauthorized',
+          message: 'User ID not found in token'
+        });
+      }
+
+      const { id } = request.params as { id: string };
+      
+      // Verify user owns this session
+      const session = await sessionsRepo.findById(id);
+      if (!session) {
+        return reply.status(404).send({
+          error: 'Not Found',
+          message: 'Session not found'
+        });
+      }
+
+      if (session.userId !== request.userId) {
+        return reply.status(403).send({
+          error: 'Forbidden',
+          message: 'You do not have access to delete this session'
+        });
+      }
+
+      const deleted = await sessionsRepo.delete(id, request.userId);
+      if (deleted) {
+        return reply.status(200).send({
+          success: true,
+          message: 'Session deleted successfully'
+        });
+      } else {
+        return reply.status(500).send({
+          error: 'Internal Server Error',
+          message: 'Failed to delete session'
+        });
+      }
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.status(500).send({
+        error: 'Internal Server Error',
+        message: 'Failed to delete session'
+      });
+    }
+  });
 }
 

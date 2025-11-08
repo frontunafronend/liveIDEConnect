@@ -54,5 +54,15 @@ export class SessionsService {
       })
     );
   }
+
+  deleteSession(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+      tap(() => {
+        // Remove the session from the list
+        const currentSessions = this._sessions();
+        this._sessions.set(currentSessions.filter(s => s.id !== id));
+      })
+    );
+  }
 }
 

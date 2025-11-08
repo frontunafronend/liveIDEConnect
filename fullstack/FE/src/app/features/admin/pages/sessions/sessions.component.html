@@ -75,6 +75,7 @@
             <th>Status</th>
             <th>Last Active</th>
             <th>Created</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody class="sessions-table__body">
@@ -94,10 +95,20 @@
               </td>
               <td>{{ formatDate(session.lastActive) }}</td>
               <td>{{ formatDate(session.createdAt) }}</td>
+              <td>
+                <button
+                  class="sessions-table__delete"
+                  (click)="onDeleteClick($event, session)"
+                  aria-label="Delete session"
+                  title="Delete session"
+                >
+                  🗑️
+                </button>
+              </td>
             </tr>
           } @empty {
             <tr>
-              <td colspan="5" class="sessions-table__empty">No sessions found</td>
+              <td colspan="6" class="sessions-table__empty">No sessions found</td>
             </tr>
           }
         </tbody>

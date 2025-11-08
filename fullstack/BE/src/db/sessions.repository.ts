@@ -84,5 +84,15 @@ export class SessionsRepository {
       [id]
     );
   }
+
+  async delete(id: string, userId: string): Promise<boolean> {
+    const result = await this.db.query(
+      `DELETE FROM sessions
+       WHERE id = $1 AND user_id = $2
+       RETURNING id`,
+      [id, userId]
+    );
+    return result.rows.length > 0;
+  }
 }
 

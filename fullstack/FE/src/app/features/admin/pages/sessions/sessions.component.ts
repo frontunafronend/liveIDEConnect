@@ -117,5 +117,19 @@ export class SessionsComponent implements OnInit {
       }
     });
   }
+
+  onDeleteClick(event: Event, session: AdminSession): void {
+    event.stopPropagation(); // Prevent row click
+    if (confirm(`Are you sure you want to delete "${session.name}"?`)) {
+      this.adminService.deleteSession(session.id).subscribe({
+        next: () => {
+          this.snackbar.success('Session deleted successfully');
+        },
+        error: (error) => {
+          this.snackbar.error('Failed to delete session. Please try again.');
+        }
+      });
+    }
+  }
 }
 

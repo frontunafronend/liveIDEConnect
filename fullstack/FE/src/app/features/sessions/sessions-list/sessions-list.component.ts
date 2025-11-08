@@ -90,6 +90,20 @@ export class SessionsListComponent implements OnInit {
     this.router.navigate(['/chat', session.id]);
   }
 
+  onDeleteClick(event: Event, session: LiveIdeSession): void {
+    event.stopPropagation(); // Prevent card click
+    if (confirm(`Are you sure you want to delete "${session.name}"?`)) {
+      this.sessionsService.deleteSession(session.id).subscribe({
+        next: () => {
+          this.snackbar.success('Session deleted successfully');
+        },
+        error: (error) => {
+          this.snackbar.error('Failed to delete session. Please try again.');
+        }
+      });
+    }
+  }
+
   openCreateModal(): void {
     // Auto-fill token from sessionStorage
     const storedToken = sessionStorage.getItem('auth_token');
