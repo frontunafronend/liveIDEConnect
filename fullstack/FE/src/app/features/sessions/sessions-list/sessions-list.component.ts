@@ -1,4 +1,4 @@
-import { Component, OnInit, effect, Signal } from '@angular/core';
+import { Component, OnInit, effect, Signal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { SessionsService } from '@core/services/sessions.service';
@@ -6,22 +6,26 @@ import { AuthService } from '@core/services/auth.service';
 import { LiveIdeSession, SessionStatus, User } from '@core/types';
 import { CardComponent } from '@shared/components/card/card.component';
 import { HeaderComponent } from '@shared/components/header/header.component';
+import { ButtonComponent } from '@shared/components/button/button.component';
+import { ErrorSnackbarService } from '@core/services/error-snackbar.service';
 
 @Component({
   selector: 'app-sessions-list',
   standalone: true,
-  imports: [CommonModule, CardComponent, HeaderComponent],
+  imports: [CommonModule, CardComponent, HeaderComponent, ButtonComponent],
   templateUrl: './sessions-list.component.html',
   styleUrl: './sessions-list.component.scss'
 })
 export class SessionsListComponent implements OnInit {
   sessions!: Signal<LiveIdeSession[]>;
   currentUser!: Signal<User | null>;
+  isCreating = signal(false);
 
   constructor(
     private sessionsService: SessionsService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private snackbar: ErrorSnackbarService
   ) {
     this.sessions = this.sessionsService.sessions;
     this.currentUser = this.authService.currentUser;
@@ -73,6 +77,23 @@ export class SessionsListComponent implements OnInit {
 
   onSessionClick(session: LiveIdeSession): void {
     this.router.navigate(['/chat', session.id]);
+  }
+
+  createSession(): void {
+    this.isCreating.set(true);
+    const sessionName = `Test Session - ${new Date().toLocaleString()}`;
+    
+    this.sessionsService.createSession(sessionName, 'online').subscribe({
+      next: (newSession) => {
+        this.isCreating.set(false);
+        // Navigate to the new session's chat
+        this.router.navigate(['/chat', newSession.id]);
+      },
+      error: (error) => {
+        this.isCreating.set(false);
+        this.snackbar.error('Failed to create session. Please try again.');
+      }
+    });
   }
 
 }

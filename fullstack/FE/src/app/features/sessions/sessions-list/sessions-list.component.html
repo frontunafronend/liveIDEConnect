@@ -7,6 +7,17 @@
         <h1 class="sessions-page__title">IDE Sessions</h1>
         <p class="sessions-page__subtitle">Manage your connected development environments</p>
       </div>
+      <app-button
+        variant="primary"
+        [disabled]="isCreating()"
+        (click)="createSession()"
+      >
+        @if (isCreating()) {
+          Creating...
+        } @else {
+          + New Session
+        }
+      </app-button>
     </div>
   </header>
 

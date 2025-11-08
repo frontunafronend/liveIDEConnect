@@ -44,5 +44,15 @@ export class SessionsService {
       }
     });
   }
+
+  createSession(name: string, status: string = 'online'): Observable<LiveIdeSession> {
+    return this.http.post<LiveIdeSession>(this.apiUrl, { name, status }).pipe(
+      tap(newSession => {
+        // Add the new session to the list
+        const currentSessions = this._sessions();
+        this._sessions.set([newSession, ...currentSessions]);
+      })
+    );
+  }
 }
 
