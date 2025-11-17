@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "angular-cli": {
+      "command": "npx",
+      "args": ["-y", "@angular/cli@latest", "mcp"],
+      "cwd": "fullstack/FE"
+    }
+  }
+}
+

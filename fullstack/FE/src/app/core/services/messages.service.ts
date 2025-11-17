@@ -35,10 +35,21 @@ export class MessagesService {
   addMessage(sessionId: string, message: LiveIdeMessage): void {
     const current = this._messages();
     const sessionMessages = current[sessionId] || [];
-    this._messages.set({
-      ...current,
-      [sessionId]: [...sessionMessages, message]
-    });
+    
+    // Check if message already exists (avoid duplicates)
+    // Compare by content, timestamp, and from field
+    const exists = sessionMessages.some(
+      msg => msg.content === message.content && 
+              msg.from === message.from && 
+              Math.abs(new Date(msg.ts).getTime() - new Date(message.ts).getTime()) < 2000 // Within 2 seconds
+    );
+    
+    if (!exists) {
+      this._messages.set({
+        ...current,
+        [sessionId]: [...sessionMessages, message]
+      });
+    }
   }
 }
 

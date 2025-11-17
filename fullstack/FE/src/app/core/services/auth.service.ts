@@ -1,6 +1,6 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap, catchError, throwError } from 'rxjs';
+import { Observable, tap, catchError, throwError, firstValueFrom } from 'rxjs';
 import { AuthResponse, LoginCredentials, SignupData, User } from '../types';
 import { environment } from '../../../environments/environment';
 import { StorageService } from './storage.service';
@@ -34,9 +34,24 @@ export class AuthService {
     const storedToken = this.storage.getToken();
     const storedUser = this.storage.getUser();
     
-    if (storedToken && storedUser) {
+    // Load token even if user data is missing (user data can be fetched later)
+    if (storedToken) {
       this._token.set(storedToken);
-      this._currentUser.set(storedUser);
+      if (storedUser) {
+        this._currentUser.set(storedUser);
+      } else {
+        // If token exists but user data is missing, try to verify and fetch user
+        // Use setTimeout to avoid blocking constructor
+        setTimeout(() => {
+          firstValueFrom(this.verifyAndLoadUser()).catch(error => {
+            console.warn('Failed to verify token on init:', error);
+            // If verification fails, clear the token (it might be expired)
+            if (error?.status === 401) {
+              this.logout();
+            }
+          });
+        }, 0);
+      }
     }
   }
 
@@ -85,6 +100,37 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return this.isAuthenticated();
+  }
+
+  /**
+   * Verify token with backend and load user data
+   * Useful when token exists but user data is missing
+   */
+  verifyAndLoadUser(): Observable<{ valid: boolean; user?: User }> {
+    const token = this._token();
+    if (!token) {
+      return throwError(() => new Error('No token available'));
+    }
+
+    return this.http.get<{ valid: boolean; user?: User }>(`${this.apiUrl}/verify`).pipe(
+      tap(response => {
+        if (response.valid && response.user) {
+          this._currentUser.set(response.user);
+          // Update stored user data
+          this.storage.setUser(response.user);
+        } else {
+          // Token is invalid, clear auth state
+          this.logout();
+        }
+      }),
+      catchError(error => {
+        // If verification fails, clear auth state
+        if (error.status === 401) {
+          this.logout();
+        }
+        return throwError(() => error);
+      })
+    );
   }
 }
 

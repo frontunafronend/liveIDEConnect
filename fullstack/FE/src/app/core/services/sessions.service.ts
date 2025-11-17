@@ -64,5 +64,9 @@ export class SessionsService {
       })
     );
   }
+
+  getActiveTabs(sessionId: string): Observable<Array<{ tabId: string; connectedAt: Date }>> {
+    return this.http.get<Array<{ tabId: string; connectedAt: Date }>>(`${this.apiUrl}/${sessionId}/tabs`);
+  }
 }
 

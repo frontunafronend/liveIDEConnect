@@ -56,6 +56,53 @@
     }
   }
 
+  &__tabs {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    margin-left: $spacing-md;
+    padding: $spacing-xs $spacing-sm;
+    background-color: var(--color-bg-secondary);
+    border-radius: $radius-md;
+  }
+
+  &__tabs-label {
+    @include typography-caption;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+
+    &--info {
+      font-style: italic;
+      opacity: 0.8;
+    }
+  }
+
+  &__tab-button {
+    padding: $spacing-xs $spacing-sm;
+    border: 1px solid var(--color-border-primary);
+    border-radius: $radius-sm;
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    @include typography-caption;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: var(--color-bg-elevated);
+      border-color: var(--color-border-secondary);
+    }
+
+    &--active {
+      background-color: var(--color-primary);
+      color: $color-white;
+      border-color: var(--color-primary);
+
+      &:hover {
+        background-color: var(--color-primary-hover);
+      }
+    }
+  }
+
   &__main {
     flex: 1;
     display: flex;

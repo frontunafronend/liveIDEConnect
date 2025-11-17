@@ -1,11 +1,10 @@
 import { Component, input, output, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent } from '../button/button.component';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [CommonModule, ButtonComponent],
+  imports: [CommonModule],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.scss'
 })

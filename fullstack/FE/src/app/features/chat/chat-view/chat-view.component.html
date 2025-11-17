@@ -12,11 +12,29 @@
           {{ isConnected() ? 'Connected' : 'Disconnected' }}
         </span>
       </div>
+      <div class="chat-page__tabs">
+        @if (activeTabs().length > 0) {
+          <span class="chat-page__tabs-label">Active Cursor Tabs:</span>
+          @for (tab of activeTabs(); track tab.tabId) {
+            <button
+              [class]="'chat-page__tab-button' + (selectedTabId() === tab.tabId ? ' chat-page__tab-button--active' : '')"
+              (click)="selectTab(tab.tabId)"
+              [title]="'Connected: ' + (tab.connectedAt | date:'short')"
+            >
+              Tab {{ $index + 1 }}
+            </button>
+          }
+        } @else {
+          <span class="chat-page__tabs-label chat-page__tabs-label--info">
+            No Cursor IDE tabs connected. Open Cursor IDE with the extension installed to see tabs here.
+          </span>
+        }
+      </div>
     </div>
   </header>
 
   <main class="chat-page__main">
-    <div class="chat-page__messages">
+    <div class="chat-page__messages" #messagesContainer>
       @for (message of messages(); track message.ts) {
         <div [class]="'chat-page__message chat-page__message--' + (isFromIde(message.from) ? 'ide' : 'client')">
           <div class="chat-page__message-header">

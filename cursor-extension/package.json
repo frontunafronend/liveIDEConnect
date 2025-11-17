@@ -1,0 +1,84 @@
+{
+  "name": "liveideconnect",
+  "displayName": "LiveIDEConnect",
+  "description": "Connect Cursor IDE chat to LiveIDEConnect web app",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "liveideconnect.sendMessage",
+        "title": "Send Message to Web App"
+      },
+      {
+        "command": "liveideconnect.openChat",
+        "title": "Open LiveIDEConnect Chat"
+      },
+      {
+        "command": "liveideconnect.connect",
+        "title": "Connect to LiveIDEConnect"
+      },
+      {
+        "command": "liveideconnect.disconnect",
+        "title": "Disconnect from LiveIDEConnect"
+      },
+      {
+        "command": "liveideconnect.checkStatus",
+        "title": "Check LiveIDEConnect Status"
+      },
+      {
+        "command": "liveideconnect.processPendingMessages",
+        "title": "Process Pending Chat Messages"
+      }
+    ],
+    "configuration": {
+      "title": "LiveIDEConnect",
+      "properties": {
+        "liveideconnect.token": {
+          "type": "string",
+          "default": "",
+          "description": "JWT token from web app"
+        },
+        "liveideconnect.sessionId": {
+          "type": "string",
+          "default": "",
+          "description": "Session ID from web app"
+        },
+        "liveideconnect.apiBase": {
+          "type": "string",
+          "default": "http://localhost:4000",
+          "description": "API base URL (use http://localhost:4000 for local dev)"
+        },
+        "liveideconnect.autoSendToCursorChat": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically send messages to Cursor chat (if false, will ask for confirmation)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "@types/ws": "^8.5.10",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "ws": "^8.16.0"
+  }
+}
+

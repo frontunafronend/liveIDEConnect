@@ -68,6 +68,12 @@ async function build() {
   
   const { adminRoutes } = await import('./routes/admin.routes');
   await fastify.register(adminRoutes);
+  
+  // Debug routes (remove in production!)
+  if (process.env.NODE_ENV !== 'production') {
+    const { debugRoutes } = await import('./routes/debug.routes');
+    await fastify.register(debugRoutes);
+  }
   fastify.get('/health', async () => {
     const dbStatus = await testConnection();
     return {
